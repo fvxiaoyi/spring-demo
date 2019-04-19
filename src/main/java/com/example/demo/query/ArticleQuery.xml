@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="article"> 
+
+	<select id="list" parameterType="java.util.HashMap">
+		select art.id,art.name,art.studentName,art.subjectName,art.courseName,art.studentLocalName
+		 from t_article art
+		<where>
+			<if test="courseId!=null">
+				and art.courseId = :courseId
+			</if>
+			<if test="subjectId!=null">
+				and art.subjectId = :subjectId
+			</if>
+			<if test="localId!=null">
+				and art.studentLocalId = :localId
+			</if>
+			<if test="name!=null">
+				and ( art.name like :name or art.studentName like :name )
+			</if>
+		</where>
+		order by art.createTime desc
+	</select>
+	
+	<select id="get" parameterType="java.util.HashMap">
+		select art.id,art.name,art.courseId,art.subjectId,art.studentId,art.size,art.width,art.height,art.remark,art.displayImg
+ 		 from t_article art
+ 		where art.id = :id
+	</select>
+	
+</mapper>  
